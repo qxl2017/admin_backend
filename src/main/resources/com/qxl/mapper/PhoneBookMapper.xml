@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qxl.mapper.PhoneBookMapper" >
+  <resultMap id="BaseResultMap" type="com.qxl.entity.PhoneBook" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="nickname" property="nickname" jdbcType="VARCHAR" />
+    <result column="mobile" property="mobile" jdbcType="VARCHAR" />
+    <result column="main_data_id" property="mainDataId" jdbcType="CHAR" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from phone_book
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.qxl.entity.PhoneBook" >
+    insert into phone_book (id, nickname, mobile, 
+      main_data_id)
+    values (#{id,jdbcType=INTEGER}, #{nickname,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
+      #{mainDataId,jdbcType=CHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.qxl.entity.PhoneBook" >
+    update phone_book
+    set nickname = #{nickname,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      main_data_id = #{mainDataId,jdbcType=CHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select id, nickname, mobile, main_data_id
+    from phone_book
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap" >
+    select id, nickname, mobile, main_data_id
+    from phone_book
+  </select>
+  <insert id="batchInsert" parameterType="java.util.List">
+    insert into phone_book (nickname, mobile,
+      main_data_id)
+      VALUES
+      <foreach collection="list" item="item" index="index" separator=",">
+        (#{item.nickname},#{item.mobile},#{item.mainDataId})
+      </foreach>
+  </insert>
+</mapper>

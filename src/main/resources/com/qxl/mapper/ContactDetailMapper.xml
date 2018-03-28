@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qxl.mapper.ContactDetailMapper">
+  <resultMap id="BaseResultMap" type="com.qxl.entity.ContactDetail">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="contact_mobile" jdbcType="VARCHAR" property="contactMobile" />
+    <result column="contact_area" jdbcType="VARCHAR" property="contactArea" />
+    <result column="call_count_6month" jdbcType="INTEGER" property="callCount6month" />
+    <result column="main_data_id" jdbcType="CHAR" property="mainDataId" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from contact_detail
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.qxl.entity.ContactDetail">
+    insert into contact_detail (id, contact_mobile, contact_area, 
+      call_count_6month, main_data_id)
+    values (#{id,jdbcType=INTEGER}, #{contactMobile,jdbcType=VARCHAR}, #{contactArea,jdbcType=VARCHAR}, 
+      #{callCount6month,jdbcType=INTEGER}, #{mainDataId,jdbcType=CHAR})
+  </insert>
+  <update id="updateByPrimaryKey" parameterType="com.qxl.entity.ContactDetail">
+    update contact_detail
+    set contact_mobile = #{contactMobile,jdbcType=VARCHAR},
+      contact_area = #{contactArea,jdbcType=VARCHAR},
+      call_count_6month = #{callCount6month,jdbcType=INTEGER},
+      main_data_id = #{mainDataId,jdbcType=CHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select id, contact_mobile, contact_area, call_count_6month, main_data_id
+    from contact_detail
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select id, contact_mobile, contact_area, call_count_6month, main_data_id
+    from contact_detail
+  </select>
+  <insert id="batchInsert" parameterType="java.util.List">
+    insert into contact_detail (contact_mobile, contact_area,
+      call_count_6month, main_data_id)
+      VALUES
+      <foreach collection="list" item="item" index="index" separator=",">
+        (#{item.contactMobile},#{item.contactArea},#{item.callCount6month},#{item.mainDataId})
+      </foreach>
+  </insert>
+</mapper>
